@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RubyBasket | Pricing</title>
+    <meta name="description" content="Your premium neighborhood supermarket and online grocery ordering platform.">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link id="bs-style" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        if (localStorage.getItem('dir') === 'rtl') {
+            document.documentElement.setAttribute('dir', 'rtl');
+            document.documentElement.setAttribute('lang', 'ar');
+            document.getElementById('bs-style').href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css";
+            const rtlCss = document.createElement('link');
+            rtlCss.rel = 'stylesheet';
+            rtlCss.href = 'assets/css/rtl.css';
+            rtlCss.id = 'custom-rtl-css';
+            document.head.appendChild(rtlCss);
+        }
+    </script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+
+<body>
+    <!-- Navbar -->
+
+    <nav class="navbar navbar-expand-xl navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2"><path d="M4 7H20L18.5 21H5.5L4 7Z" fill="var(--color-primary)" fill-opacity="0.2" stroke="var(--color-primary)" stroke-width="2" stroke-linejoin="round"/><path d="M8 7L12 3L16 7" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="14" r="3" fill="var(--color-secondary)"/></svg>
+                <span>RubyBasket</span>
+            </a>
+            
+            <button class="navbar-toggler border-0 shadow-none d-xl-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-controls="mobileMenu">
+                <i data-lucide="menu"></i>
+            </button>
+
+            <div class="collapse navbar-collapse d-none d-xl-flex" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home 1</a></li>
+                    <li class="nav-item"><a class="nav-link" href="home-2.html">Home 2</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="pricing.html">Pricing</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                </ul>
+                <div class="nav-controls d-flex align-items-center gap-2">
+                    <a href="cart.html" class="nav-icon-btn" aria-label="Cart">
+                        <i data-lucide="shopping-cart"></i>
+                        <span class="cart-badge" style="display: none;">0</span>
+                    </a>
+                    <button class="nav-icon-btn theme-toggle" aria-label="Toggle Theme">
+                        <i data-lucide="moon"></i>
+                    </button>
+                    <button class="nav-icon-btn rtl-toggle" aria-label="Toggle RTL">
+                        <i data-lucide="arrow-left-right"></i>
+                    </button>
+                    <a href="login.html" class="btn-primary-custom ms-2 px-3 py-1.5" aria-label="Login">Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Offcanvas Mobile Menu -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
+        <div class="offcanvas-header justify-content-center gap-3">
+            <h5 class="offcanvas-title mb-0" id="mobileMenuLabel">Menu</h5>
+            <button type="button" class="btn-close-custom" data-bs-dismiss="offcanvas" aria-label="Close">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column text-center">
+            <ul class="navbar-nav flex-column mb-4 align-items-center w-100">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home 1</a></li>
+                <li class="nav-item"><a class="nav-link" href="home-2.html">Home 2</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+                <li class="nav-item"><a class="nav-link active" href="pricing.html">Pricing</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+            </ul>
+            <div class="d-flex justify-content-center gap-4 mb-4">
+                <button class="nav-icon-btn theme-toggle" aria-label="Toggle Theme">
+                    <i data-lucide="moon"></i>
+                </button>
+                <button class="nav-icon-btn rtl-toggle" aria-label="Toggle RTL">
+                    <i data-lucide="arrow-left-right"></i>
+                </button>
+            </div>
+            <div class="d-flex justify-content-center mb-4 w-100 px-3">
+                <a href="login.html" class="btn-primary-custom w-100 py-2">Login</a>
+            </div>
+        </div>
+    </div>
+
+    
+
+<main class="pt-5 mt-5">
+        <!-- SECTION 1: DELIVERY PLANS -->
+        <section class="section-padding overflow-hidden text-white" style="background-color: var(--color-primary);">
+            <div class="container text-center">
+                <h1 class="display-5 fw-bold mb-4">Choose Your Delivery Plan</h1>
+                <p class="lead text-white mb-5 max-w-md mx-auto" style="max-width: 600px;">Whether you order occasionally or need fresh groceries daily, we have a plan that fits your lifestyle.</p>
+            </div>
+        </section>
+        
+        <section class="section-padding pt-5">
+            <div class="container">
+                <div class="row g-4 justify-content-center max-w-lg mx-auto text-body">
+                    <!-- Plan 1 -->
+                    <div class="col-md-6 col-lg-6 col-xl-4">
+                        <div class="card-premium h-100 text-start position-relative">
+                            <h5 class="fw-bold mb-2">Pay Per Delivery</h5>
+                            <p class="text-muted small border-bottom pb-3 mb-3">Best for occasional orders.</p>
+                            <div class="mb-4">
+                                <span class="fs-1 fw-bold">$5.99</span>
+                                <span class="text-muted">/delivery</span>
+                            </div>
+                            <ul class="list-unstyled mb-4 small text-muted">
+                                <li class="mb-2"><i data-lucide="check" size="16" class="text-primary me-2"></i> Standard delivery slots</li>
+                                <li class="mb-2"><i data-lucide="check" size="16" class="text-primary me-2"></i> Order tracking</li>
+                                <li class="mb-2 text-opacity-50 text-decoration-line-through"><i data-lucide="x" size="16" class="me-2"></i> Free same-day delivery</li>
+                            </ul>
+                            <a href="register.html" class="btn-outline-custom w-100 mt-auto">Sign Up Free</a>
+                        </div>
+                    </div>
+                    <!-- Plan 2 -->
+                    <div class="col-md-6 col-lg-6 col-xl-4">
+                        <div class="card-premium h-100 text-start position-relative border-primary shadow-lg" style="transform: scale(1.05); z-index: 2;">
+                            <span class="badge bg-primary position-absolute top-0 start-50 translate-middle rounded-pill px-3 py-2">Most Popular</span>
+                            <h5 class="fw-bold mb-2 pt-2">Monthly Saver</h5>
+                            <p class="text-muted small border-bottom pb-3 mb-3">Best for weekly shoppers.</p>
+                            <div class="mb-4">
+                                <span class="fs-1 fw-bold">$9.99</span>
+                                <span class="text-muted">/month</span>
+                            </div>
+                            <ul class="list-unstyled mb-4 small text-muted">
+                                <li class="mb-2"><i data-lucide="check" size="16" class="text-primary me-2"></i> Unlimited free deliveries</li>
+                                <li class="mb-2"><i data-lucide="check" size="16" class="text-primary me-2"></i> Order tracking</li>
+                                <li class="mb-2"><i data-lucide="check" size="16" class="text-primary me-2"></i> Priority slots</li>
+                            </ul>
+                            <a href="register.html" class="btn-primary-custom w-100 mt-auto">Start 14-Day Trial</a>
+                        </div>
+                    </div>
+                    <!-- Plan 3 -->
+                    <div class="col-md-6 col-lg-6 col-xl-4">
+                        <div class="card-premium h-100 text-start position-relative">
+                            <h5 class="fw-bold mb-2">Premium Delivery</h5>
+                            <p class="text-muted small border-bottom pb-3 mb-3">For those who want it all.</p>
+                            <div class="mb-4">
+                                <span class="fs-1 fw-bold">$99.00</span>
+                                <span class="text-muted">/year</span>
+                            </div>
+                            <ul class="list-unstyled mb-4 small text-muted">
+                                <li class="mb-2"><i data-lucide="check" size="16" class="text-primary me-2"></i> Unlimited free deliveries</li>
+                                <li class="mb-2"><i data-lucide="check" size="16" class="text-primary me-2"></i> Exclusive member discounts</li>
+                                <li class="mb-2"><i data-lucide="check" size="16" class="text-primary me-2"></i> Dedicated support line</li>
+                            </ul>
+                            <a href="register.html" class="btn-outline-custom w-100 mt-auto">Go Premium</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: MEMBERSHIP BENEFITS -->
+        <section class="section-padding bg-surface">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2>Premium Member Benefits</h2>
+                    <p>Upgrade to unlock exclusive perks.</p>
+                </div>
+                <div class="row g-4 align-items-center">
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="card-premium h-100 text-center p-4">
+                            <div class="bg-light rounded-circle p-3 d-inline-block mb-3">
+                                <i data-lucide="truck" size="32" class="text-primary"></i>
+                            </div>
+                            <h6 class="fw-bold">Free Delivery</h6>
+                            <p class="small text-muted mb-0">On all orders over $35.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="card-premium h-100 text-center p-4">
+                            <div class="bg-light rounded-circle p-3 d-inline-block mb-3">
+                                <i data-lucide="clock" size="32" class="text-primary"></i>
+                            </div>
+                            <h6 class="fw-bold">Priority Slots</h6>
+                            <p class="small text-muted mb-0">Skip the wait during peak hours.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="card-premium h-100 text-center p-4">
+                            <div class="bg-light rounded-circle p-3 d-inline-block mb-3">
+                                <i data-lucide="percent" size="32" class="text-accent"></i>
+                            </div>
+                            <h6 class="fw-bold">Exclusive Deals</h6>
+                            <p class="small text-muted mb-0">Access member-only discounts.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-3">
+                        <div class="card-premium h-100 text-center p-4">
+                            <div class="bg-light rounded-circle p-3 d-inline-block mb-3">
+                                <i data-lucide="gift" size="32" class="text-accent"></i>
+                            </div>
+                            <h6 class="fw-bold">Surprise Gifts</h6>
+                            <p class="small text-muted mb-0">Free seasonal samples.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: COMPARE PLANS -->
+        <section class="section-padding">
+            <div class="container">
+                <h2 class="text-center mb-5">Compare Features</h2>
+                
+                <!-- Desktop Table View -->
+                <div class="d-none d-lg-block bg-transparent rounded-4 p-4 border border-opacity-10">
+                    <table class="table table-borderless text-center align-middle mb-0" style="--bs-table-bg: transparent; --bs-table-color: inherit; background-color: transparent;">
+                        <thead>
+                            <tr class="border-bottom">
+                                <th class="text-start py-3 w-25">Feature</th>
+                                <th class="py-3">Pay Per Delivery</th>
+                                <th class="py-3 text-primary">Monthly Saver</th>
+                                <th class="py-3">Premium Delivery</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-bottom">
+                                <td class="text-start py-3">Delivery Fee</td>
+                                <td class="py-3">$5.99 per order</td>
+                                <td class="py-3">$0</td>
+                                <td class="py-3">$0</td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <td class="text-start py-3">Same-Day Delivery</td>
+                                <td class="py-3 text-muted"><i data-lucide="x" size="20"></i></td>
+                                <td class="py-3 text-primary"><i data-lucide="check" size="20"></i></td>
+                                <td class="py-3 text-primary"><i data-lucide="check" size="20"></i></td>
+                            </tr>
+                            <tr class="border-bottom">
+                                <td class="text-start py-3">Priority Support</td>
+                                <td class="py-3 text-muted"><i data-lucide="x" size="20"></i></td>
+                                <td class="py-3 text-muted"><i data-lucide="x" size="20"></i></td>
+                                <td class="py-3 text-primary"><i data-lucide="check" size="20"></i></td>
+                            </tr>
+                            <tr>
+                                <td class="text-start py-3">Member Discounts</td>
+                                <td class="py-3 text-muted"><i data-lucide="x" size="20"></i></td>
+                                <td class="py-3 text-muted"><i data-lucide="x" size="20"></i></td>
+                                <td class="py-3 text-primary"><i data-lucide="check" size="20"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile Stacked Cards View -->
+                <div class="d-lg-none row g-4">
+                    <div class="col-12">
+                        <div class="card-premium">
+                            <h6 class="fw-bold mb-3 border-bottom pb-2">Pay Per Delivery</h6>
+                            <ul class="list-unstyled small mb-0">
+                                <li class="mb-2 d-flex justify-content-between"><span>Delivery Fee</span> <span>$5.99</span></li>
+                                <li class="mb-2 d-flex justify-content-between text-muted"><span>Same-Day</span> <span>No</span></li>
+                                <li class="mb-2 d-flex justify-content-between text-muted"><span>Priority Support</span> <span>No</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card-premium border-primary">
+                            <h6 class="fw-bold mb-3 border-bottom pb-2 text-primary">Monthly Saver</h6>
+                            <ul class="list-unstyled small mb-0">
+                                <li class="mb-2 d-flex justify-content-between"><span>Delivery Fee</span> <span>Free</span></li>
+                                <li class="mb-2 d-flex justify-content-between fw-bold"><span>Same-Day</span> <span>Yes</span></li>
+                                <li class="mb-2 d-flex justify-content-between text-muted"><span>Priority Support</span> <span>No</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card-premium">
+                            <h6 class="fw-bold mb-3 border-bottom pb-2">Premium Delivery</h6>
+                            <ul class="list-unstyled small mb-0">
+                                <li class="mb-2 d-flex justify-content-between"><span>Delivery Fee</span> <span>Free</span></li>
+                                <li class="mb-2 d-flex justify-content-between fw-bold"><span>Same-Day</span> <span>Yes</span></li>
+                                <li class="mb-2 d-flex justify-content-between fw-bold"><span>Priority Support</span> <span>Yes</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: PRICING CTA -->
+        <section class="section-padding text-center">
+            <div class="container">
+                <div class="card-premium p-5 mx-auto shadow-sm" style="max-width: 700px;">
+                    <h2 class="mb-4">Choose the plan that fits your grocery routine.</h2>
+                    <p class="text-muted mb-5">Change or cancel your plan at any time right from your dashboard.</p>
+                    <a href="register.html" class="btn-primary-custom btn-lg px-5 rounded-pill">Get Started Today</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    
+
+<footer class="footer-custom">
+        <div class="container">
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-12 pe-lg-5 mb-4 mb-lg-0">
+                    <a href="index.html" class="footer-logo">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2"><path d="M4 7H20L18.5 21H5.5L4 7Z" fill="var(--color-primary)" fill-opacity="0.2" stroke="var(--color-primary)" stroke-width="2" stroke-linejoin="round"/><path d="M8 7L12 3L16 7" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="14" r="3" fill="var(--color-secondary)"/></svg> RubyBasket
+                    </a>
+                    <p class="text-muted mb-4">Your premium neighborhood supermarket providing fresh groceries with smart, fast delivery to your door.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram fs-5"></i></a>
+                        <a href="#" class="social-icon" aria-label="Facebook"><i class="bi bi-facebook fs-5"></i></a>
+                        <a href="#" class="social-icon" aria-label="X"><i class="bi bi-twitter-x fs-5"></i></a>
+                        <a href="#" class="social-icon" aria-label="YouTube"><i class="bi bi-youtube fs-5"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-6 footer-col">
+                    <h5>Shop</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Fresh Produce</a></li>
+                        <li><a href="#">Dairy & Eggs</a></li>
+                        <li><a href="#">Bakery</a></li>
+                        <li><a href="#">Meat & Seafood</a></li>
+                        <li><a href="#">Weekly Deals</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-3 col-6 footer-col">
+                    <h5>Customer Care</h5>
+                    <ul class="footer-links">
+                        <li><a href="contact.html">Help Center</a></li>
+                        <li><a href="#">Track Order</a></li>
+                        <li><a href="#">Delivery Info</a></li>
+                        <li><a href="#">Returns & Refunds</a></li>
+                        <li><a href="services.html">Services</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-3 col-6 footer-col">
+                    <h5>Company</h5>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="contact.html">Store Locations</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-3 col-6 footer-col">
+                    <h5>Contact Us</h5>
+                    <ul class="footer-links">
+                        <li class="d-flex align-items-center gap-2"><i data-lucide="map-pin" size="16"></i> 123 Market St, NY</li>
+                        <li class="d-flex align-items-center gap-2"><i data-lucide="phone" size="16"></i> +1 234 567 8900</li>
+                        <li class="d-flex align-items-center gap-2"><i data-lucide="mail" size="16"></i> hello@rubybasket.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-top border-opacity-10 pt-4 text-center text-muted small">
+                <p>&copy; 2026 RubyBasket Supermarket. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- GSAP (Optional for future advanced animations) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
+
+

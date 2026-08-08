@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RubyBasket | Register</title>
+    <link id="bs-style" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        if (localStorage.getItem('dir') === 'rtl') {
+            document.documentElement.setAttribute('dir', 'rtl');
+            document.documentElement.setAttribute('lang', 'ar');
+            document.getElementById('bs-style').href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css";
+            const rtlCss = document.createElement('link');
+            rtlCss.rel = 'stylesheet';
+            rtlCss.href = 'assets/css/rtl.css';
+            rtlCss.id = 'custom-rtl-css';
+            document.head.appendChild(rtlCss);
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .auth-bg {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: radial-gradient(circle at top right, var(--bg-surface) 0%, var(--bg-body) 100%);
+            overflow: hidden;
+            padding: 1rem;
+        }
+        @media (min-width: 768px) {
+            .auth-bg {
+                padding: 2rem;
+            }
+        }
+        
+        .auth-card {
+            width: 100%;
+            max-width: 500px;
+            z-index: 10;
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+    <div class="auth-bg">
+        <!-- 3D Grocery Environment Background (Different composition from login) -->
+        <div class="position-absolute w-100 h-100 top-0 start-0 z-0 opacity-50" style="pointer-events: none;">
+            <i data-lucide="carrot" class="floating-element position-absolute text-accent" size="70" style="top: 20%; inset-inline-end: 25%; opacity: 0.2; animation-duration: 7s;"></i>
+            <i data-lucide="milk" class="floating-element position-absolute text-primary" size="60" style="bottom: 25%; inset-inline-end: 15%; opacity: 0.15; animation-delay: 1.5s;"></i>
+            <i data-lucide="truck" class="floating-element position-absolute text-primary" size="90" style="top: 35%; inset-inline-start: 15%; opacity: 0.1; animation-delay: 2.5s; animation-duration: 10s;"></i>
+            <i data-lucide="croissant" class="floating-element position-absolute text-accent" size="65" style="bottom: 10%; inset-inline-start: 20%; opacity: 0.2; animation-delay: 0.5s;"></i>
+        </div>
+
+        <!-- ONLY ONE MAIN CARD SECTION -->
+        <div class="glass-panel auth-card p-3 p-md-5 rounded-4 shadow-lg text-center position-relative">
+            <!-- Theme/RTL overrides moved here -->
+            <div class="d-flex justify-content-end gap-2 mb-3 d-md-none">
+                <button class="nav-icon-btn theme-toggle glass-panel border-0 shadow-sm"><i data-lucide="moon"></i></button>
+                <button class="nav-icon-btn rtl-toggle glass-panel border-0 shadow-sm"><i data-lucide="arrow-left-right"></i></button>
+            </div>
+            
+            <a href="index.html" class="d-inline-flex align-items-center gap-2 text-decoration-none mb-4 text-dark">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2"><path d="M4 7H20L18.5 21H5.5L4 7Z" fill="var(--color-primary)" fill-opacity="0.2" stroke="var(--color-primary)" stroke-width="2" stroke-linejoin="round"/><path d="M8 7L12 3L16 7" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="14" r="3" fill="var(--color-secondary)"/></svg>
+                <span class="fs-4 fw-bold font-display" style="color: var(--color-text-main)">RubyBasket</span>
+            </a>
+            
+            <h4 class="fw-bold mb-1">Create an Account</h4>
+            <p class="text-muted small mb-4">Start shopping smarter and faster today.</p>
+            
+            <form id="registerForm" class="text-start" novalidate>
+                <div class="row g-3 mb-3">
+                    <div class="col-12 position-relative">
+                        <label for="fullName" class="form-label small text-muted">Full Name</label>
+                        <div class="input-group has-validation">
+                            <span class="input-group-text bg-light"><i data-lucide="user" size="18"></i></span>
+                            <input type="text" class="form-control bg-light py-2" id="fullName" required>
+                            <div class="invalid-feedback">Please enter your full name.</div>
+                        </div>
+                    </div>
+                    <div class="col-12 position-relative">
+                        <label for="email" class="form-label small text-muted">Email</label>
+                        <input type="email" class="form-control bg-light py-2" id="email" required>
+                        <div class="invalid-feedback">Valid email required.</div>
+                    </div>
+                    <div class="col-12 position-relative">
+                        <label for="mobile" class="form-label small text-muted">Mobile Number</label>
+                        <input type="tel" class="form-control bg-light py-2" id="mobile" required>
+                        <div class="invalid-feedback">Valid mobile required.</div>
+                    </div>
+                    <div class="col-12 position-relative">
+                        <label for="password" class="form-label small text-muted">Password</label>
+                        <div class="input-group has-validation">
+                            <input type="password" class="form-control bg-light py-2" id="password" required minlength="8">
+                            <span class="input-group-text bg-light" style="cursor: pointer;" onclick="togglePassword('password', this)"><i data-lucide="eye" size="18"></i></span>
+                            <div class="invalid-feedback">Min 8 characters required.</div>
+                        </div>
+                    </div>
+                    <div class="col-12 position-relative">
+                        <label for="confirmPassword" class="form-label small text-muted">Confirm Password</label>
+                        <div class="input-group has-validation">
+                            <input type="password" class="form-control bg-light py-2" id="confirmPassword" required>
+                            <span class="input-group-text bg-light" style="cursor: pointer;" onclick="togglePassword('confirmPassword', this)"><i data-lucide="eye" size="18"></i></span>
+                            <div class="invalid-feedback">Passwords must match.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-4 form-check position-relative">
+                    <input type="checkbox" class="form-check-input" id="terms" required>
+                    <label class="form-check-label small text-muted" for="terms">I agree to the <a href="#" class="text-primary text-decoration-none">Terms & Conditions</a></label>
+                    <div class="invalid-feedback">You must agree before submitting.</div>
+                </div>
+                
+                <button type="submit" class="btn-primary-custom w-100 py-2 mb-3">Create Account</button>
+                
+                <button type="button" class="btn-outline-custom w-100 py-2 mb-3 d-flex align-items-center justify-content-center gap-2">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="18">
+                    Continue with Google
+                </button>
+                
+                <button type="button" class="btn-outline-custom w-100 py-2 mb-4 d-flex align-items-center justify-content-center gap-2">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple" width="18">
+                    Continue with Apple
+                </button>
+                
+                <p class="text-muted small mb-0 text-center">Already have an account? <a href="login.html" class="fw-bold text-primary text-decoration-none">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Theme/RTL overrides for auth page (Desktop only) -->
+    <div class="position-absolute top-0 end-0 p-3 z-3 d-none d-md-flex gap-2">
+        <button class="nav-icon-btn theme-toggle glass-panel border-0 shadow-sm"><i data-lucide="moon"></i></button>
+        <button class="nav-icon-btn rtl-toggle glass-panel border-0 shadow-sm"><i data-lucide="arrow-left-right"></i></button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        (function () {
+            'use strict'
+            var form = document.getElementById('registerForm');
+            var password = document.getElementById('password');
+            var confirmPassword = document.getElementById('confirmPassword');
+
+            form.addEventListener('submit', function (event) {
+                // Custom validation for password match
+                if (password.value !== confirmPassword.value) {
+                    confirmPassword.setCustomValidity('Passwords do not match');
+                } else {
+                    confirmPassword.setCustomValidity('');
+                }
+
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                } else {
+                    event.preventDefault();
+                    // Mock registration
+                    window.location.href = 'dashboard.html';
+                }
+                form.classList.add('was-validated')
+            }, false)
+            
+            // Clear custom validity when typing
+            confirmPassword.addEventListener('input', function() {
+                this.setCustomValidity('');
+            });
+        })()
+
+        function togglePassword(inputId, iconSpan) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                iconSpan.innerHTML = '<i data-lucide="eye-off" size="18"></i>';
+            } else {
+                input.type = 'password';
+                iconSpan.innerHTML = '<i data-lucide="eye" size="18"></i>';
+            }
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
+
+

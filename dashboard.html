@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RubyBasket | Dashboard</title>
+    <!-- Bootstrap 5 CSS -->
+    <link id="bs-style" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        if (localStorage.getItem('dir') === 'rtl') {
+            document.documentElement.setAttribute('dir', 'rtl');
+            document.documentElement.setAttribute('lang', 'ar');
+            document.getElementById('bs-style').href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css";
+            const rtlCss = document.createElement('link');
+            rtlCss.rel = 'stylesheet';
+            rtlCss.href = 'assets/css/rtl.css';
+            rtlCss.id = 'custom-rtl-css';
+            document.head.appendChild(rtlCss);
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        body {
+            background-color: var(--bg-body);
+        }
+        
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .dashboard-sidebar {
+            width: 280px;
+            background-color: var(--bg-surface);
+            border-inline-end: 1px solid var(--color-border);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            flex-shrink: 0;
+            transition: transform var(--transition-normal);
+        }
+        
+        .dashboard-main {
+            flex-grow: 1;
+            padding: 2rem;
+            min-width: 0; /* Prevents overflow */
+        }
+        
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--color-text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all var(--transition-fast);
+            border-inline-start: 3px solid transparent;
+        }
+        
+        .sidebar-link:hover, .sidebar-link.active {
+            background-color: rgba(22, 163, 74, 0.1);
+            color: var(--color-primary);
+            border-inline-start-color: var(--color-primary);
+        }
+        
+        /* Order Timeline */
+        .order-timeline {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+        
+        .timeline-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .timeline-step::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: -20px;
+            width: 2px;
+            background-color: var(--color-border);
+        }
+        
+        [dir="rtl"] .timeline-step::before {
+            left: auto;
+            right: 20px;
+        }
+        
+        .timeline-step:last-child::before {
+            display: none;
+        }
+        
+        .timeline-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: var(--bg-surface);
+            border: 2px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-muted);
+            z-index: 2;
+        }
+        
+        .timeline-step.active .timeline-icon {
+            border-color: var(--color-primary);
+            background-color: var(--color-primary);
+            color: white;
+            box-shadow: 0 0 0 5px rgba(22, 163, 74, 0.2);
+            animation: pulse-ring 2s infinite;
+        }
+        
+        .timeline-step.completed .timeline-icon {
+            border-color: var(--color-primary);
+            background-color: var(--bg-surface);
+            color: var(--color-primary);
+        }
+        
+        .timeline-step.completed::before {
+            background-color: var(--color-primary);
+        }
+        
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.4); }
+            100% { box-shadow: 0 0 0 10px rgba(22, 163, 74, 0); }
+        }
+        
+        /* Nav Tabs Custom */
+        .nav-tabs-custom {
+            border-bottom: 2px solid var(--color-border);
+        }
+        
+        .nav-tabs-custom .nav-link {
+            border: none;
+            color: var(--color-text-muted);
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            position: relative;
+        }
+        
+        .nav-tabs-custom .nav-link.active {
+            background: transparent;
+            color: var(--color-primary);
+        }
+        
+        .nav-tabs-custom .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--color-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-tabs-custom .nav-link.active::after {
+            transform: scaleX(1);
+        }
+        
+        @media (max-width: 991.98px) {
+            .dashboard-sidebar {
+                position: fixed;
+                left: 0;
+                transform: translateX(-100%);
+                z-index: 1045;
+                box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            }
+            [dir="rtl"] .dashboard-sidebar {
+                left: auto;
+                right: 0;
+                transform: translateX(100%);
+            }
+            .dashboard-sidebar.show {
+                transform: translateX(0) !important;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .dashboard-main {
+                padding: 1rem;
+            }
+        }
+    </style>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+
+    <!-- Mobile Header -->
+    <div class="d-lg-none bg-surface p-3 border-bottom d-flex align-items-center gap-3 sticky-top">
+        <button class="btn btn-sm btn-outline-secondary" type="button" id="sidebarToggleBtn">
+            <i data-lucide="menu"></i>
+        </button>
+        <a href="index.html" class="d-flex align-items-center gap-2 text-decoration-none">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2"><path d="M4 7H20L18.5 21H5.5L4 7Z" fill="var(--color-primary)" fill-opacity="0.2" stroke="var(--color-primary)" stroke-width="2" stroke-linejoin="round"/><path d="M8 7L12 3L16 7" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="14" r="3" fill="var(--color-secondary)"/></svg>
+            <span class="fw-bold font-display text-dark">RubyBasket</span>
+        </a>
+        <div class="ms-auto d-flex align-items-center gap-2">
+            <button class="nav-icon-btn theme-toggle bg-light rounded-circle shadow-sm" style="width: 32px; height: 32px;"><i data-lucide="moon" size="16"></i></button>
+            <button class="nav-icon-btn rtl-toggle bg-light rounded-circle shadow-sm" style="width: 32px; height: 32px;"><i data-lucide="arrow-left-right" size="16"></i></button>
+        </div>
+    </div>
+
+    <div class="dashboard-layout">
+        
+        <!-- SIDEBAR -->
+        <aside class="dashboard-sidebar" id="dashboardSidebar">
+            <a href="index.html" class="p-4 d-none d-lg-flex align-items-center gap-2 mb-4 text-decoration-none">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2"><path d="M4 7H20L18.5 21H5.5L4 7Z" fill="var(--color-primary)" fill-opacity="0.2" stroke="var(--color-primary)" stroke-width="2" stroke-linejoin="round"/><path d="M8 7L12 3L16 7" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="14" r="3" fill="var(--color-secondary)"/></svg>
+                <span class="fs-5 fw-bold font-display text-dark">RubyBasket</span>
+            </a>
+            
+            <div class="px-4 mb-4">
+                <div class="d-flex align-items-center gap-3 mb-2">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80" alt="User" class="rounded-circle" width="48" height="48">
+                    <div>
+                        <h6 class="mb-0 fw-bold">Alex Johnson</h6>
+                        <span class="small text-muted">Premium Member</span>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="d-flex flex-column gap-1">
+                <a href="#overview" class="sidebar-link active"><i data-lucide="layout-dashboard"></i> Overview</a>
+                <a href="#orders" class="sidebar-link"><i data-lucide="package"></i> My Orders</a>
+                <a href="#tracking" class="sidebar-link"><i data-lucide="map-pin"></i> Track Delivery</a>
+                <a href="#lists" class="sidebar-link"><i data-lucide="list-todo"></i> Saved Lists</a>
+                <a href="#favorites" class="sidebar-link"><i data-lucide="heart"></i> Favorites</a>
+                <a href="#addresses" class="sidebar-link"><i data-lucide="map"></i> Addresses</a>
+                <a href="#invoices" class="sidebar-link"><i data-lucide="file-text"></i> Invoices</a>
+                <a href="#offers" class="sidebar-link"><i data-lucide="tag"></i> Offers</a>
+                <a href="#notifications" class="sidebar-link d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center gap-3"><i data-lucide="bell"></i> Notifications</div>
+                    <span class="badge bg-danger rounded-pill">3</span>
+                </a>
+                <a href="#profile" class="sidebar-link"><i data-lucide="user"></i> Profile</a>
+                <a href="#settings" class="sidebar-link"><i data-lucide="settings"></i> Settings</a>
+            </nav>
+            
+            <div class="p-4 mt-auto d-flex flex-column">
+                <div class="d-flex gap-3 justify-content-center mb-4">
+                    <button class="nav-icon-btn theme-toggle bg-light rounded-circle shadow-sm" style="width: 36px; height: 36px;"><i data-lucide="moon" size="18"></i></button>
+                    <button class="nav-icon-btn rtl-toggle bg-light rounded-circle shadow-sm" style="width: 36px; height: 36px;"><i data-lucide="arrow-left-right" size="18"></i></button>
+                </div>
+                <a href="index.html" class="sidebar-link text-danger"><i data-lucide="log-out"></i> Logout</a>
+            </div>
+        </aside>
+
+        <!-- MAIN DASHBOARD CONTENT -->
+        <main class="dashboard-main">
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <h2 class="fw-bold mb-0">Welcome back, Alex!</h2>
+                <a href="cart.html" class="btn-primary-custom px-4 d-none d-md-flex">View Cart</a>
+            </div>
+
+            <!-- SECTION 1: OVERVIEW -->
+            <section class="mb-5" id="overview">
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="bg-primary bg-opacity-10 p-2 rounded text-primary"><i data-lucide="shopping-bag"></i></div>
+                                <h6 class="mb-0 text-muted">Total Orders</h6>
+                            </div>
+                            <h2 class="display-5 fw-bold count-up" data-target="24">0</h2>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="bg-accent bg-opacity-10 p-2 rounded text-accent"><i data-lucide="truck"></i></div>
+                                <h6 class="mb-0 text-muted">Active Order</h6>
+                            </div>
+                            <h2 class="display-5 fw-bold count-up" data-target="1">0</h2>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="bg-success bg-opacity-10 p-2 rounded text-success"><i data-lucide="list"></i></div>
+                                <h6 class="mb-0 text-muted">Saved Lists</h6>
+                            </div>
+                            <h2 class="display-5 fw-bold count-up" data-target="4">0</h2>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="bg-warning bg-opacity-10 p-2 rounded text-warning"><i data-lucide="award"></i></div>
+                                <h6 class="mb-0 text-muted">Rewards Pts</h6>
+                            </div>
+                            <h2 class="display-5 fw-bold count-up" data-target="1250">0</h2>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: ACTIVE ORDER TRACKING -->
+            <section class="mb-5" id="tracking">
+                <div class="card-premium p-4 p-md-5 position-relative overflow-hidden">
+                    <div class="d-flex justify-content-between align-items-center mb-5">
+                        <div>
+                            <h4 class="fw-bold mb-1">Active Order: #FM-84920</h4>
+                            <p class="text-muted small mb-0">Estimated Delivery: Today, 5:30 PM</p>
+                        </div>
+                        <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill fw-bold">Out for Delivery</span>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="order-timeline">
+                                <div class="timeline-step completed">
+                                    <div class="timeline-icon"><i data-lucide="check" size="20"></i></div>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Order Confirmed</h6>
+                                        <p class="small text-muted mb-0">12:30 PM - Payment successful.</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-step completed">
+                                    <div class="timeline-icon"><i data-lucide="package" size="20"></i></div>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Preparing & Packed</h6>
+                                        <p class="small text-muted mb-0">1:15 PM - Your items were carefully packed.</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-step active">
+                                    <div class="timeline-icon"><i data-lucide="truck" size="20"></i></div>
+                                    <div>
+                                        <h6 class="fw-bold mb-1 text-primary">Out for Delivery</h6>
+                                        <p class="small text-muted mb-0">Driver John is on the way. (3 stops away)</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-step">
+                                    <div class="timeline-icon"><i data-lucide="home" size="20"></i></div>
+                                    <div>
+                                        <h6 class="fw-bold mb-1 text-muted">Delivered</h6>
+                                        <p class="small text-muted mb-0">Pending...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 d-none d-lg-block">
+                            <div class="bg-light rounded-4 h-100 p-4 position-relative overflow-hidden d-flex align-items-center justify-content-center border">
+                                <!-- Animated Map Visual -->
+                                <svg width="100%" height="100%" style="position: absolute; opacity: 0.1;">
+                                    <path d="M 10 50 Q 80 10 150 100 T 250 150" fill="none" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                
+                                <div class="position-absolute" style="top: 20%; inset-inline-end: 20%;"><i data-lucide="home" size="24" class="text-muted"></i></div>
+                                <div class="position-absolute" style="bottom: 20%; inset-inline-start: 20%;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2"><path d="M4 7H20L18.5 21H5.5L4 7Z" fill="var(--color-primary)" fill-opacity="0.2" stroke="var(--color-primary)" stroke-width="2" stroke-linejoin="round"/><path d="M8 7L12 3L16 7" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="14" r="3" fill="var(--color-secondary)"/></svg></div>
+                                
+                                <div class="position-absolute" style="animation: moveVan 4s ease-in-out infinite alternate;">
+                                    <div class="bg-primary p-2 rounded-circle shadow-sm text-white"><i data-lucide="truck" size="20"></i></div>
+                                </div>
+                            </div>
+                            <style>
+                                @keyframes moveVan {
+                                    0% { transform: translate(-40px, 40px); }
+                                    100% { transform: translate(40px, -40px); }
+                                }
+                            </style>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: QUICK SHOPPING -->
+            <section class="mb-5">
+                <h4 class="fw-bold mb-4">Quick Actions</h4>
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 text-center d-flex flex-column hover-bg-primary-light transition-all cursor-pointer">
+                            <div class="bg-light rounded-circle p-3 d-inline-block mx-auto mb-3"><i data-lucide="rotate-ccw" size="24" class="text-primary"></i></div>
+                            <h6 class="fw-bold">Buy Again</h6>
+                            <p class="small text-muted mb-4">12 items from last order</p>
+                            <button class="btn btn-sm btn-outline-primary mt-auto rounded-pill">View Items</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 text-center d-flex flex-column">
+                            <div class="bg-light rounded-circle p-3 d-inline-block mx-auto mb-3"><i data-lucide="list-todo" size="24" class="text-primary"></i></div>
+                            <h6 class="fw-bold">Saved List</h6>
+                            <p class="small text-muted mb-4">"Weekly Groceries" (18 items)</p>
+                            <button class="btn btn-sm btn-outline-primary mt-auto rounded-pill">Add All to Cart</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 text-center d-flex flex-column">
+                            <div class="bg-light rounded-circle p-3 d-inline-block mx-auto mb-3"><i data-lucide="tag" size="24" class="text-accent"></i></div>
+                            <h6 class="fw-bold">Weekly Deals</h6>
+                            <p class="small text-muted mb-4">15 new items on sale</p>
+                            <button class="btn btn-sm btn-outline-primary mt-auto rounded-pill">Shop Deals</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 text-center d-flex flex-column">
+                            <div class="bg-light rounded-circle p-3 d-inline-block mx-auto mb-3"><i data-lucide="heart" size="24" class="text-danger"></i></div>
+                            <h6 class="fw-bold">Favorites</h6>
+                            <p class="small text-muted mb-4">6 items saved</p>
+                            <button class="btn btn-sm btn-outline-primary mt-auto rounded-pill">View Favorites</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: MY ORDERS -->
+            <section class="mb-5" id="orders" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">My Orders</h4>
+                </div>
+                <div class="row g-4 mb-4">
+                    <div class="col-12 col-md-6 col-xl-3"><div class="card-premium h-100 p-3 text-center"><h6 class="text-muted small">Total Orders</h6><h4 class="fw-bold text-primary mb-0">24</h4></div></div>
+                    <div class="col-12 col-md-6 col-xl-3"><div class="card-premium h-100 p-3 text-center"><h6 class="text-muted small">In Transit</h6><h4 class="fw-bold text-warning mb-0">1</h4></div></div>
+                    <div class="col-12 col-md-6 col-xl-3"><div class="card-premium h-100 p-3 text-center"><h6 class="text-muted small">Delivered</h6><h4 class="fw-bold text-success mb-0">21</h4></div></div>
+                    <div class="col-12 col-md-6 col-xl-3"><div class="card-premium h-100 p-3 text-center"><h6 class="text-muted small">Cancelled</h6><h4 class="fw-bold text-danger mb-0">2</h4></div></div>
+                </div>
+                <div class="card-premium p-4 overflow-hidden">
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle mb-0">
+                            <thead class="border-bottom text-muted small">
+                                <tr>
+                                    <th class="py-3">Order ID</th>
+                                    <th class="py-3">Date</th>
+                                    <th class="py-3">Items</th>
+                                    <th class="py-3">Total</th>
+                                    <th class="py-3">Status</th>
+                                    <th class="py-3 text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-bottom">
+                                    <td class="py-3 fw-bold">#FM-84920</td>
+                                    <td class="py-3 text-muted">Today</td>
+                                    <td class="py-3">8 items</td>
+                                    <td class="py-3 fw-bold">$42.50</td>
+                                    <td class="py-3"><span class="badge bg-primary bg-opacity-10 text-primary px-2 py-1">In Transit</span></td>
+                                    <td class="py-3 text-end"><button class="btn btn-sm btn-outline-secondary rounded-pill">Details</button></td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="py-3 fw-bold">#FM-84901</td>
+                                    <td class="py-3 text-muted">Aug 02, 2026</td>
+                                    <td class="py-3">12 items</td>
+                                    <td class="py-3 fw-bold">$85.20</td>
+                                    <td class="py-3"><span class="badge bg-success bg-opacity-10 text-success px-2 py-1">Delivered</span></td>
+                                    <td class="py-3 text-end"><button class="btn btn-sm btn-outline-primary rounded-pill">Reorder</button></td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 fw-bold">#FM-84850</td>
+                                    <td class="py-3 text-muted">Jul 25, 2026</td>
+                                    <td class="py-3">5 items</td>
+                                    <td class="py-3 fw-bold">$24.00</td>
+                                    <td class="py-3"><span class="badge bg-success bg-opacity-10 text-success px-2 py-1">Delivered</span></td>
+                                    <td class="py-3 text-end"><button class="btn btn-sm btn-outline-primary rounded-pill">Reorder</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: SAVED LISTS -->
+            <section class="mb-5" id="lists" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">Saved Lists</h4>
+                    <button class="btn btn-primary-custom btn-sm rounded-pill"><i data-lucide="plus" size="16"></i> Create New</button>
+                </div>
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 d-flex flex-column hover-bg-light transition-all border border-opacity-10">
+                            <div class="d-flex justify-content-between mb-3"><div class="bg-primary bg-opacity-10 p-2 rounded text-primary"><i data-lucide="list-todo"></i></div><button class="btn btn-sm text-muted"><i data-lucide="more-vertical" size="16"></i></button></div>
+                            <h6 class="fw-bold mb-1">Weekly Groceries</h6>
+                            <p class="small text-muted mb-4">18 items</p>
+                            <button class="btn btn-sm btn-outline-primary w-100 mt-auto rounded-pill">View List</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 d-flex flex-column hover-bg-light transition-all border border-opacity-10">
+                            <div class="d-flex justify-content-between mb-3"><div class="bg-primary bg-opacity-10 p-2 rounded text-primary"><i data-lucide="list-todo"></i></div><button class="btn btn-sm text-muted"><i data-lucide="more-vertical" size="16"></i></button></div>
+                            <h6 class="fw-bold mb-1">BBQ Party</h6>
+                            <p class="small text-muted mb-4">24 items</p>
+                            <button class="btn btn-sm btn-outline-primary w-100 mt-auto rounded-pill">View List</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 d-flex flex-column hover-bg-light transition-all border border-opacity-10">
+                            <div class="d-flex justify-content-between mb-3"><div class="bg-primary bg-opacity-10 p-2 rounded text-primary"><i data-lucide="list-todo"></i></div><button class="btn btn-sm text-muted"><i data-lucide="more-vertical" size="16"></i></button></div>
+                            <h6 class="fw-bold mb-1">Healthy Snacks</h6>
+                            <p class="small text-muted mb-4">12 items</p>
+                            <button class="btn btn-sm btn-outline-primary w-100 mt-auto rounded-pill">View List</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 d-flex flex-column hover-bg-light transition-all border border-opacity-10">
+                            <div class="d-flex justify-content-between mb-3"><div class="bg-primary bg-opacity-10 p-2 rounded text-primary"><i data-lucide="list-todo"></i></div><button class="btn btn-sm text-muted"><i data-lucide="more-vertical" size="16"></i></button></div>
+                            <h6 class="fw-bold mb-1">Baking Essentials</h6>
+                            <p class="small text-muted mb-4">9 items</p>
+                            <button class="btn btn-sm btn-outline-primary w-100 mt-auto rounded-pill">View List</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 6: FAVORITES -->
+            <section class="mb-5" id="favorites" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">Favorites</h4>
+                    <button class="btn btn-outline-primary btn-sm rounded-pill">Shop All Favorites</button>
+                </div>
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 text-center p-0 overflow-hidden d-flex flex-column">
+                            <img src="assets/images/Organic Carrots.png" alt="Product" class="w-100" style="height: 180px; object-fit: cover;">
+                            <div class="p-4 d-flex flex-column flex-grow-1">
+                                <h6 class="fw-bold">Organic Carrots</h6>
+                                <p class="text-primary fw-bold mb-3">$2.99</p>
+                                <button class="btn btn-sm btn-primary w-100 mt-auto rounded-pill">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 text-center p-0 overflow-hidden d-flex flex-column">
+                            <img src="assets/images/Red Apples.png" alt="Product" class="w-100" style="height: 180px; object-fit: cover;">
+                            <div class="p-4 d-flex flex-column flex-grow-1">
+                                <h6 class="fw-bold">Red Apples</h6>
+                                <p class="text-primary fw-bold mb-3">$4.50</p>
+                                <button class="btn btn-sm btn-primary w-100 mt-auto rounded-pill">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 text-center p-0 overflow-hidden d-flex flex-column">
+                            <img src="assets/images/Premium Beef Cut.png" alt="Product" class="w-100" style="height: 180px; object-fit: cover;">
+                            <div class="p-4 d-flex flex-column flex-grow-1">
+                                <h6 class="fw-bold">Premium Beef</h6>
+                                <p class="text-primary fw-bold mb-3">$14.99</p>
+                                <button class="btn btn-sm btn-primary w-100 mt-auto rounded-pill">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 text-center p-0 overflow-hidden d-flex flex-column">
+                            <img src="assets/images/Mozzarella Cheese.png" alt="Product" class="w-100" style="height: 180px; object-fit: cover;">
+                            <div class="p-4 d-flex flex-column flex-grow-1">
+                                <h6 class="fw-bold">Mozzarella Cheese</h6>
+                                <p class="text-primary fw-bold mb-3">$5.99</p>
+                                <button class="btn btn-sm btn-primary w-100 mt-auto rounded-pill">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 7: ADDRESSES -->
+            <section class="mb-5" id="addresses" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">Saved Addresses</h4>
+                </div>
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 position-relative border-primary p-4">
+                            <span class="badge bg-primary position-absolute top-0 end-0 m-3">Default</span>
+                            <div class="d-flex align-items-center gap-2 mb-3"><i data-lucide="home" class="text-primary"></i><h6 class="fw-bold mb-0">Home</h6></div>
+                            <p class="text-muted small mb-1">Alex Johnson</p>
+                            <p class="text-muted small mb-3">123 Market St, Apt 4B<br>New York, NY 10001</p>
+                            <button class="btn btn-sm btn-outline-secondary mt-auto w-100 rounded-pill">Edit</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 position-relative p-4">
+                            <div class="d-flex align-items-center gap-2 mb-3"><i data-lucide="briefcase" class="text-muted"></i><h6 class="fw-bold mb-0">Work</h6></div>
+                            <p class="text-muted small mb-1">Alex Johnson</p>
+                            <p class="text-muted small mb-3">456 Corporate Blvd, Suite 200<br>New York, NY 10005</p>
+                            <button class="btn btn-sm btn-outline-secondary mt-auto w-100 rounded-pill">Edit</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 position-relative p-4">
+                            <div class="d-flex align-items-center gap-2 mb-3"><i data-lucide="map-pin" class="text-muted"></i><h6 class="fw-bold mb-0">Parent's House</h6></div>
+                            <p class="text-muted small mb-1">Mary Johnson</p>
+                            <p class="text-muted small mb-3">789 Family Road<br>Brooklyn, NY 11201</p>
+                            <button class="btn btn-sm btn-outline-secondary mt-auto w-100 rounded-pill">Edit</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="border border-dashed rounded-4 p-4 d-flex flex-column align-items-center justify-content-center text-center h-100 text-muted cursor-pointer hover-bg-light transition-all">
+                            <i data-lucide="plus" size="32" class="mb-2 text-primary"></i>
+                            <span class="fw-bold">Add New Address</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 8: INVOICES -->
+            <section class="mb-5" id="invoices" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">Invoices</h4>
+                </div>
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4 text-center">
+                            <div class="bg-danger bg-opacity-10 text-danger p-3 rounded-circle d-inline-block mb-3"><i data-lucide="file-pdf" size="24"></i></div>
+                            <h6 class="fw-bold mb-1">#INV-84901</h6>
+                            <p class="text-muted small mb-3">Aug 02, 2026</p>
+                            <button class="btn btn-sm btn-outline-secondary w-100 rounded-pill">Download</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4 text-center">
+                            <div class="bg-danger bg-opacity-10 text-danger p-3 rounded-circle d-inline-block mb-3"><i data-lucide="file-pdf" size="24"></i></div>
+                            <h6 class="fw-bold mb-1">#INV-84850</h6>
+                            <p class="text-muted small mb-3">Jul 25, 2026</p>
+                            <button class="btn btn-sm btn-outline-secondary w-100 rounded-pill">Download</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4 text-center">
+                            <div class="bg-danger bg-opacity-10 text-danger p-3 rounded-circle d-inline-block mb-3"><i data-lucide="file-pdf" size="24"></i></div>
+                            <h6 class="fw-bold mb-1">#INV-84805</h6>
+                            <p class="text-muted small mb-3">Jul 18, 2026</p>
+                            <button class="btn btn-sm btn-outline-secondary w-100 rounded-pill">Download</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4 text-center">
+                            <div class="bg-danger bg-opacity-10 text-danger p-3 rounded-circle d-inline-block mb-3"><i data-lucide="file-pdf" size="24"></i></div>
+                            <h6 class="fw-bold mb-1">#INV-84722</h6>
+                            <p class="text-muted small mb-3">Jul 10, 2026</p>
+                            <button class="btn btn-sm btn-outline-secondary w-100 rounded-pill">Download</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 9: OFFERS -->
+            <section class="mb-5" id="offers" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">Exclusive Offers</h4>
+                </div>
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 text-center p-4 border border-accent">
+                            <div class="bg-accent bg-opacity-10 text-accent p-3 rounded-circle d-inline-block mb-3"><i data-lucide="tag" size="24"></i></div>
+                            <h6 class="fw-bold mb-1">20% Off Produce</h6>
+                            <p class="text-muted small mb-3">Valid until Aug 15</p>
+                            <button class="btn btn-sm btn-accent w-100 rounded-pill">Claim Offer</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 text-center p-4">
+                            <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-circle d-inline-block mb-3"><i data-lucide="truck" size="24"></i></div>
+                            <h6 class="fw-bold mb-1">Free Delivery</h6>
+                            <p class="text-muted small mb-3">On orders over $50</p>
+                            <button class="btn btn-sm btn-outline-primary w-100 rounded-pill">Applied Automatically</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 text-center p-4">
+                            <div class="bg-warning bg-opacity-10 text-warning p-3 rounded-circle d-inline-block mb-3"><i data-lucide="gift" size="24"></i></div>
+                            <h6 class="fw-bold mb-1">Bonus Points</h6>
+                            <p class="text-muted small mb-3">Double points on Bakery</p>
+                            <button class="btn btn-sm btn-primary w-100 rounded-pill">Claim Offer</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 text-center p-4">
+                            <div class="bg-success bg-opacity-10 text-success p-3 rounded-circle d-inline-block mb-3"><i data-lucide="percent" size="24"></i></div>
+                            <h6 class="fw-bold mb-1">BOGO Deals</h6>
+                            <p class="text-muted small mb-3">Buy 1 get 1 free on Dairy</p>
+                            <button class="btn btn-sm btn-outline-primary w-100 rounded-pill">Shop Now</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 10: NOTIFICATIONS -->
+            <section class="mb-5" id="notifications" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">Notifications</h4>
+                    <button class="btn btn-outline-secondary btn-sm rounded-pill">Mark All Read</button>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="card-premium h-100 p-4 border-start border-4 border-primary shadow-sm">
+                            <div class="d-flex gap-3">
+                                <div class="bg-primary bg-opacity-10 p-2 rounded-circle text-primary"><i data-lucide="truck"></i></div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Your order is on the way!</h6>
+                                    <p class="small text-muted mb-2">Driver John is 3 stops away with order #FM-84920.</p>
+                                    <span class="small text-primary fw-bold">Just now</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-premium h-100 p-4 shadow-sm opacity-75">
+                            <div class="d-flex gap-3">
+                                <div class="bg-accent bg-opacity-10 p-2 rounded-circle text-accent"><i data-lucide="tag"></i></div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">20% off Organic Produce</h6>
+                                    <p class="small text-muted mb-2">Weekend special just for premium members.</p>
+                                    <span class="small text-muted">2 days ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-premium h-100 p-4 shadow-sm opacity-75">
+                            <div class="d-flex gap-3">
+                                <div class="bg-success bg-opacity-10 p-2 rounded-circle text-success"><i data-lucide="check-circle"></i></div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Order Delivered</h6>
+                                    <p class="small text-muted mb-2">Order #FM-84901 was successfully delivered.</p>
+                                    <span class="small text-muted">Aug 02, 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-premium h-100 p-4 shadow-sm opacity-75">
+                            <div class="d-flex gap-3">
+                                <div class="bg-warning bg-opacity-10 p-2 rounded-circle text-warning"><i data-lucide="award"></i></div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Points Earned!</h6>
+                                    <p class="small text-muted mb-2">You earned 150 points from your last order.</p>
+                                    <span class="small text-muted">Aug 02, 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 11: PROFILE -->
+            <section class="mb-5" id="profile" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">My Profile</h4>
+                </div>
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4 text-center">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80" alt="User" class="rounded-circle mb-3" width="80" height="80">
+                            <h5 class="fw-bold mb-1">Alex Johnson</h5>
+                            <p class="small text-muted mb-3">Premium Member</p>
+                            <button class="btn btn-sm btn-outline-primary w-100 rounded-pill">Update Photo</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded text-primary mb-3 d-inline-block"><i data-lucide="mail"></i></div>
+                            <h6 class="fw-bold mb-1">Email Address</h6>
+                            <p class="small text-muted mb-3">alex.j@example.com</p>
+                            <button class="btn btn-sm btn-outline-secondary w-100 mt-auto rounded-pill">Change Email</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded text-primary mb-3 d-inline-block"><i data-lucide="phone"></i></div>
+                            <h6 class="fw-bold mb-1">Phone Number</h6>
+                            <p class="small text-muted mb-3">+1 (555) 123-4567</p>
+                            <button class="btn btn-sm btn-outline-secondary w-100 mt-auto rounded-pill">Update Number</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded text-primary mb-3 d-inline-block"><i data-lucide="shield"></i></div>
+                            <h6 class="fw-bold mb-1">Password</h6>
+                            <p class="small text-muted mb-3">Last changed 3 mos ago</p>
+                            <button class="btn btn-sm btn-outline-secondary w-100 mt-auto rounded-pill">Change Password</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 12: SETTINGS -->
+            <section class="mb-5" id="settings" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">Settings</h4>
+                </div>
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="bg-primary bg-opacity-10 p-2 rounded text-primary"><i data-lucide="bell"></i></div>
+                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked></div>
+                            </div>
+                            <h6 class="fw-bold mb-1">Push Notifications</h6>
+                            <p class="small text-muted mb-0">Get delivery updates directly to your device.</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="bg-primary bg-opacity-10 p-2 rounded text-primary"><i data-lucide="mail"></i></div>
+                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked></div>
+                            </div>
+                            <h6 class="fw-bold mb-1">Email Newsletter</h6>
+                            <p class="small text-muted mb-0">Weekly deals and seasonal fresh produce updates.</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="bg-primary bg-opacity-10 p-2 rounded text-primary"><i data-lucide="lock"></i></div>
+                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox"></div>
+                            </div>
+                            <h6 class="fw-bold mb-1">Two-Factor Auth</h6>
+                            <p class="small text-muted mb-0">Secure your account with 2FA protection.</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="bg-danger bg-opacity-10 p-2 rounded text-danger"><i data-lucide="trash-2"></i></div>
+                            </div>
+                            <h6 class="fw-bold mb-1 text-danger">Delete Account</h6>
+                            <p class="small text-muted mb-3">Permanently remove all your data.</p>
+                            <button class="btn btn-sm btn-outline-danger w-100 mt-auto rounded-pill">Delete Data</button>
+                        </div>
+                    </div>
+                </div>
+                            <h6 class="fw-bold mb-1">#INV-84722</h6>
+                            <p class="text-muted small mb-3">Jul 10, 2026</p>
+                            <button class="btn btn-sm btn-outline-secondary w-100 rounded-pill">Download</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 9: OFFERS -->
+            <section class="mb-5" id="offers" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">Exclusive Offers</h4>
+                </div>
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 text-center p-4 border border-accent">
+                            <div class="bg-accent bg-opacity-10 text-accent p-3 rounded-circle d-inline-block mb-3"><i data-lucide="tag" size="24"></i></div>
+                            <h6 class="fw-bold mb-1">20% Off Produce</h6>
+                            <p class="text-muted small mb-3">Valid until Aug 15</p>
+                            <button class="btn btn-sm btn-accent w-100 rounded-pill">Claim Offer</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 text-center p-4">
+                            <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-circle d-inline-block mb-3"><i data-lucide="truck" size="24"></i></div>
+                            <h6 class="fw-bold mb-1">Free Delivery</h6>
+                            <p class="text-muted small mb-3">On orders over $50</p>
+                            <button class="btn btn-sm btn-outline-primary w-100 rounded-pill">Applied Automatically</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 text-center p-4">
+                            <div class="bg-warning bg-opacity-10 text-warning p-3 rounded-circle d-inline-block mb-3"><i data-lucide="gift" size="24"></i></div>
+                            <h6 class="fw-bold mb-1">Bonus Points</h6>
+                            <p class="text-muted small mb-3">Double points on Bakery</p>
+                            <button class="btn btn-sm btn-primary w-100 rounded-pill">Claim Offer</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 text-center p-4">
+                            <div class="bg-success bg-opacity-10 text-success p-3 rounded-circle d-inline-block mb-3"><i data-lucide="percent" size="24"></i></div>
+                            <h6 class="fw-bold mb-1">BOGO Deals</h6>
+                            <p class="text-muted small mb-3">Buy 1 get 1 free on Dairy</p>
+                            <button class="btn btn-sm btn-outline-primary w-100 rounded-pill">Shop Now</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 10: NOTIFICATIONS -->
+            <section class="mb-5" id="notifications" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">Notifications</h4>
+                    <button class="btn btn-outline-secondary btn-sm rounded-pill">Mark All Read</button>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="card-premium h-100 p-4 border-start border-4 border-primary shadow-sm">
+                            <div class="d-flex gap-3">
+                                <div class="bg-primary bg-opacity-10 p-2 rounded-circle text-primary"><i data-lucide="truck"></i></div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Your order is on the way!</h6>
+                                    <p class="small text-muted mb-2">Driver John is 3 stops away with order #FM-84920.</p>
+                                    <span class="small text-primary fw-bold">Just now</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-premium h-100 p-4 shadow-sm opacity-75">
+                            <div class="d-flex gap-3">
+                                <div class="bg-accent bg-opacity-10 p-2 rounded-circle text-accent"><i data-lucide="tag"></i></div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">20% off Organic Produce</h6>
+                                    <p class="small text-muted mb-2">Weekend special just for premium members.</p>
+                                    <span class="small text-muted">2 days ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-premium h-100 p-4 shadow-sm opacity-75">
+                            <div class="d-flex gap-3">
+                                <div class="bg-success bg-opacity-10 p-2 rounded-circle text-success"><i data-lucide="check-circle"></i></div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Order Delivered</h6>
+                                    <p class="small text-muted mb-2">Order #FM-84901 was successfully delivered.</p>
+                                    <span class="small text-muted">Aug 02, 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-premium h-100 p-4 shadow-sm opacity-75">
+                            <div class="d-flex gap-3">
+                                <div class="bg-warning bg-opacity-10 p-2 rounded-circle text-warning"><i data-lucide="award"></i></div>
+                                <div>
+                                    <h6 class="fw-bold mb-1">Points Earned!</h6>
+                                    <p class="small text-muted mb-2">You earned 150 points from your last order.</p>
+                                    <span class="small text-muted">Aug 02, 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 11: PROFILE -->
+            <section class="mb-5" id="profile" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">My Profile</h4>
+                </div>
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4 text-center">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80" alt="User" class="rounded-circle mb-3" width="80" height="80">
+                            <h5 class="fw-bold mb-1">Alex Johnson</h5>
+                            <p class="small text-muted mb-3">Premium Member</p>
+                            <button class="btn btn-sm btn-outline-primary w-100 rounded-pill">Update Photo</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded text-primary mb-3 d-inline-block"><i data-lucide="mail"></i></div>
+                            <h6 class="fw-bold mb-1">Email Address</h6>
+                            <p class="small text-muted mb-3">alex.j@example.com</p>
+                            <button class="btn btn-sm btn-outline-secondary w-100 mt-auto rounded-pill">Change Email</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded text-primary mb-3 d-inline-block"><i data-lucide="phone"></i></div>
+                            <h6 class="fw-bold mb-1">Phone Number</h6>
+                            <p class="small text-muted mb-3">+1 (555) 123-4567</p>
+                            <button class="btn btn-sm btn-outline-secondary w-100 mt-auto rounded-pill">Update Number</button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded text-primary mb-3 d-inline-block"><i data-lucide="shield"></i></div>
+                            <h6 class="fw-bold mb-1">Password</h6>
+                            <p class="small text-muted mb-3">Last changed 3 mos ago</p>
+                            <button class="btn btn-sm btn-outline-secondary w-100 mt-auto rounded-pill">Change Password</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 12: SETTINGS -->
+            <section class="mb-5" id="settings" style="display: none;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">Settings</h4>
+                </div>
+                <div class="row g-4">
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="bg-primary bg-opacity-10 p-2 rounded text-primary"><i data-lucide="bell"></i></div>
+                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked></div>
+                            </div>
+                            <h6 class="fw-bold mb-1">Push Notifications</h6>
+                            <p class="small text-muted mb-0">Get delivery updates directly to your device.</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="bg-primary bg-opacity-10 p-2 rounded text-primary"><i data-lucide="mail"></i></div>
+                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked></div>
+                            </div>
+                            <h6 class="fw-bold mb-1">Email Newsletter</h6>
+                            <p class="small text-muted mb-0">Weekly deals and seasonal fresh produce updates.</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="bg-primary bg-opacity-10 p-2 rounded text-primary"><i data-lucide="lock"></i></div>
+                                <div class="form-check form-switch"><input class="form-check-input" type="checkbox"></div>
+                            </div>
+                            <h6 class="fw-bold mb-1">Two-Factor Auth</h6>
+                            <p class="small text-muted mb-0">Secure your account with 2FA protection.</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-3">
+                        <div class="card-premium h-100 p-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="bg-danger bg-opacity-10 p-2 rounded text-danger"><i data-lucide="trash-2"></i></div>
+                            </div>
+                            <h6 class="fw-bold mb-1 text-danger">Delete Account</h6>
+                            <p class="small text-muted mb-3">Permanently remove all your data.</p>
+                            <button class="btn btn-sm btn-outline-danger w-100 mt-auto rounded-pill">Delete Data</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- CountUp JS for Stats -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.8.0/countUp.umd.js"></script>
+    
+    <!-- Dashboard specific JS -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+</body>
+</html>

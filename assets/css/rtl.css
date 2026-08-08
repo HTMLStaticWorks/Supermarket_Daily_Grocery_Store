@@ -1,0 +1,135 @@
+/* ==========================================================================
+   RTL STYLES (Loaded only when dir="rtl")
+   ========================================================================== */
+
+/* Typography & Direction */
+body {
+    text-align: right;
+}
+
+/* Navbar adjustments */
+.navbar-brand {
+    margin-right: 0;
+    margin-left: 1rem;
+}
+
+.cart-badge {
+    right: auto !important;
+    left: 0 !important;
+}
+
+.nav-link::after {
+    left: auto;
+    right: 1rem;
+}
+
+/* Hero Section Inline Overrides */
+.hero-3d-scene img {
+    left: auto !important;
+    right: 10% !important;
+}
+
+.hero-3d-scene .floating-element[style*="top: 0"] {
+    right: auto !important;
+    left: 0 !important;
+}
+
+.hero-3d-scene .floating-element[style*="bottom: 10%"] {
+    left: auto !important;
+    right: -5% !important;
+}
+
+/* Smart Experience Section */
+.smart-experience-section .glass-panel.position-absolute {
+    left: auto !important;
+    right: -20px !important;
+}
+
+/* Conversion Section */
+.conversion-section .floating-element {
+    right: auto !important;
+    left: -10% !important;
+    animation: driveAcrossRTL 15s linear infinite !important;
+}
+
+.conversion-section .floating-element i {
+    transform: scaleX(-1);
+}
+
+@keyframes driveAcrossRTL {
+    0% { transform: translateX(-100vw); }
+    100% { transform: translateX(150vw); }
+}
+
+/* Footer Adjustments */
+.footer-col h5, .footer-links {
+    text-align: right;
+}
+
+.footer-links .d-flex {
+    text-align: right;
+}
+
+/* Offcanvas */
+.offcanvas-header .btn-close-custom {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+/* ==========================================================================
+   RESPONSIVE ALIGNMENT (Mobile & Tab 768px to 1024px)
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .hero-section h1, .hero-section .lead {
+        text-align: right;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Mobile specific center alignments */
+    .hero-section {
+        text-align: center !important;
+    }
+    
+    .hero-section h1, .hero-section .lead {
+        text-align: center !important;
+    }
+    
+    .hero-section .d-flex.flex-wrap {
+        justify-content: center;
+    }
+    
+    .smart-experience-section .glass-panel.position-absolute {
+        right: 0 !important;
+        left: 0 !important;
+        margin: 0 auto;
+        bottom: -20px !important;
+    }
+    
+    .smart-experience-section .d-flex.gap-3 {
+        text-align: right;
+    }
+    
+    .footer-col h5, .footer-links {
+        text-align: center;
+    }
+    
+    .footer-logo {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .footer-links .d-flex {
+        justify-content: center;
+    }
+}
+
+/* Specific complex inline transforms (like in services.html) */
+.glass-panel[style*="transform: translateX(-20px)"] {
+    transform: translateX(20px) !important;
+}
+
+/* Ensure padding and margins behave perfectly with Bootstrap's logical classes */
+[dir="rtl"] .ms-auto { margin-right: auto !important; margin-left: 0 !important; }
+[dir="rtl"] .me-auto { margin-left: auto !important; margin-right: 0 !important; }
+

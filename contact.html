@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RubyBasket | Contact</title>
+    <meta name="description" content="Your premium neighborhood supermarket and online grocery ordering platform.">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link id="bs-style" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        if (localStorage.getItem('dir') === 'rtl') {
+            document.documentElement.setAttribute('dir', 'rtl');
+            document.documentElement.setAttribute('lang', 'ar');
+            document.getElementById('bs-style').href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css";
+            const rtlCss = document.createElement('link');
+            rtlCss.rel = 'stylesheet';
+            rtlCss.href = 'assets/css/rtl.css';
+            rtlCss.id = 'custom-rtl-css';
+            document.head.appendChild(rtlCss);
+        }
+    </script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+
+<body>
+    <!-- Navbar -->
+
+    <nav class="navbar navbar-expand-xl navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2"><path d="M4 7H20L18.5 21H5.5L4 7Z" fill="var(--color-primary)" fill-opacity="0.2" stroke="var(--color-primary)" stroke-width="2" stroke-linejoin="round"/><path d="M8 7L12 3L16 7" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="14" r="3" fill="var(--color-secondary)"/></svg>
+                <span>RubyBasket</span>
+            </a>
+            
+            <button class="navbar-toggler border-0 shadow-none d-xl-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-controls="mobileMenu">
+                <i data-lucide="menu"></i>
+            </button>
+
+            <div class="collapse navbar-collapse d-none d-xl-flex" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home 1</a></li>
+                    <li class="nav-item"><a class="nav-link" href="home-2.html">Home 2</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                </ul>
+                <div class="nav-controls d-flex align-items-center gap-2">
+                    <a href="cart.html" class="nav-icon-btn" aria-label="Cart">
+                        <i data-lucide="shopping-cart"></i>
+                        <span class="cart-badge" style="display: none;">0</span>
+                    </a>
+                    <button class="nav-icon-btn theme-toggle" aria-label="Toggle Theme">
+                        <i data-lucide="moon"></i>
+                    </button>
+                    <button class="nav-icon-btn rtl-toggle" aria-label="Toggle RTL">
+                        <i data-lucide="arrow-left-right"></i>
+                    </button>
+                    <a href="login.html" class="btn-primary-custom ms-2 px-3 py-1.5" aria-label="Login">Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Offcanvas Mobile Menu -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
+        <div class="offcanvas-header justify-content-center gap-3">
+            <h5 class="offcanvas-title mb-0" id="mobileMenuLabel">Menu</h5>
+            <button type="button" class="btn-close-custom" data-bs-dismiss="offcanvas" aria-label="Close">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column text-center">
+            <ul class="navbar-nav flex-column mb-4 align-items-center w-100">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home 1</a></li>
+                <li class="nav-item"><a class="nav-link" href="home-2.html">Home 2</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+                <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li>
+                <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+            </ul>
+            <div class="d-flex justify-content-center gap-4 mb-4">
+                <button class="nav-icon-btn theme-toggle" aria-label="Toggle Theme">
+                    <i data-lucide="moon"></i>
+                </button>
+                <button class="nav-icon-btn rtl-toggle" aria-label="Toggle RTL">
+                    <i data-lucide="arrow-left-right"></i>
+                </button>
+            </div>
+            <div class="d-flex justify-content-center mb-4 w-100 px-3">
+                <a href="login.html" class="btn-primary-custom w-100 py-2">Login</a>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <main>
+        <!-- Section 1: Hero -->
+        <section class="contact-hero mt-0 py-5 position-relative" style="background-color: var(--color-primary); height: 40vh; display: flex; align-items: center;">
+            <div class="container position-relative z-1 fade-up text-white text-center">
+                <span class="subheading d-block mb-3 text-white">Get in Touch</span>
+                <h1 class="display-3 fw-bold mb-4">We're Here to Help</h1>
+            </div>
+        </section>
+
+        <!-- Section 2: Contact Info, Map & Form -->
+                <!-- Section 2: Contact Info & Form -->
+        <section class="py-5 bg-surface">
+            <div class="container py-5">
+                <div class="card border-0 shadow-lg overflow-hidden rounded-4 fade-up">
+                    <div class="row g-0">
+                        <!-- Left Sidebar: Contact Info -->
+                        <div class="col-lg-4 text-white p-5 position-relative" style="background: var(--color-primary);">
+                            <!-- Decorative elements -->
+                            <div style="position: absolute; bottom: -50px; right: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                            <div style="position: absolute; top: 50px; right: 20px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+                            
+                            <div class="position-relative z-1 h-100 d-flex flex-column">
+                                <h3 class="mb-4 text-white fw-bold">Contact Information</h3>
+                                <p class="mb-5 text-white-50">Fill up the form and our team will get back to you within 24 hours.</p>
+                                
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <i data-lucide="phone" class="text-white"></i>
+                                    <div>
+                                        <p class="mb-0 text-white fw-bold">+1 234 567 8900</p>
+                                        <small class="text-white-50">Customer Care</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <i data-lucide="mail" class="text-white"></i>
+                                    <div>
+                                        <p class="mb-0 text-white fw-bold">hello@rubybasket.com</p>
+                                        <small class="text-white-50">General Support</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-3 mb-5">
+                                    <i data-lucide="map-pin" class="text-white"></i>
+                                    <div>
+                                        <p class="mb-0 text-white fw-bold">123 Market St, NY 10001</p>
+                                        <small class="text-white-50">Main Headquarters</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-auto pt-5 border-top border-light border-opacity-25 text-center">
+                                    <h5 class="text-white mb-3 fs-6">Follow Us</h5>
+                                    <div class="d-flex gap-3 justify-content-center">
+                                        <a href="#" class="text-white opacity-75 hover-opacity-100"><i class="bi bi-facebook fs-5"></i></a>
+                                        <a href="#" class="text-white opacity-75 hover-opacity-100"><i class="bi bi-twitter-x fs-5"></i></a>
+                                        <a href="#" class="text-white opacity-75 hover-opacity-100"><i class="bi bi-instagram fs-5"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Side: Form -->
+                        <div class="col-lg-8 p-4 p-md-5 bg-white">
+                            <h3 class="mb-4 fw-bold" style="color: var(--color-primary);">Send us a Message</h3>
+                            
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs mb-4 border-bottom-0" id="contactTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active bg-transparent border-0 border-bottom border-2 border-primary fw-bold text-primary px-0 me-4" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab">General Enquiry</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link bg-transparent border-0 border-bottom border-2 border-transparent text-muted px-0" id="b2b-tab" data-bs-toggle="tab" data-bs-target="#b2b" type="button" role="tab">Partner / Supplier</button>
+                                </li>
+                            </ul>
+                            
+                            <div class="tab-content" id="contactTabsContent">
+                                <!-- General Form -->
+                                <div class="tab-pane fade show active" id="general" role="tabpanel">
+                                    <form>
+                                        <div class="row g-4">
+                                            <div class="col-md-6">
+                                                <label class="form-label text-muted small fw-bold">First Name</label>
+                                                <input type="text" class="form-control border-secondary border-opacity-25" placeholder="e.g. John" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label text-muted small fw-bold">Last Name</label>
+                                                <input type="text" class="form-control border-secondary border-opacity-25" placeholder="e.g. Doe" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label text-muted small fw-bold">Email Address</label>
+                                                <input type="email" class="form-control border-secondary border-opacity-25" placeholder="john@example.com" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label text-muted small fw-bold">Subject</label>
+                                                <select class="form-select border-secondary border-opacity-25 text-muted">
+                                                    <option selected disabled>Choose a subject</option>
+                                                    <option value="1">Order Status/Tracking</option>
+                                                    <option value="2">Returns & Refunds</option>
+                                                    <option value="3">Product Inquiry</option>
+                                                    <option value="4">Website Feedback</option>
+                                                    <option value="5">Other</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-12 mt-4">
+                                                <label class="form-label text-muted small fw-bold">Message</label>
+                                                <textarea class="form-control border-secondary border-opacity-25" rows="4" placeholder="Write your message here..." required></textarea>
+                                            </div>
+                                            <div class="col-12 text-center mt-5">
+                                                <button type="submit" class="btn-primary-custom px-5 py-2 rounded-pill shadow-sm">Send Message <i data-lucide="send" class="ms-2" style="width: 16px;"></i></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                
+                                <!-- B2B Form -->
+                                <div class="tab-pane fade" id="b2b" role="tabpanel">
+                                    <form>
+                                        <div class="row g-4">
+                                            <div class="col-md-6">
+                                                <label class="form-label text-muted small fw-bold">Company Name</label>
+                                                <input type="text" class="form-control border-secondary border-opacity-25" placeholder="e.g. Acme Corp" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label text-muted small fw-bold">Contact Person</label>
+                                                <input type="text" class="form-control border-secondary border-opacity-25" placeholder="e.g. Jane Smith" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label text-muted small fw-bold">Business Email</label>
+                                                <input type="email" class="form-control border-secondary border-opacity-25" placeholder="jane@acmecorp.com" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label text-muted small fw-bold">Enquiry Type</label>
+                                                <select class="form-select border-secondary border-opacity-25 text-muted">
+                                                    <option selected disabled>Choose type</option>
+                                                    <option value="1">Become a Supplier</option>
+                                                    <option value="2">Bulk Corporate Orders</option>
+                                                    <option value="3">Franchise Opportunities</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-12 mt-4">
+                                                <label class="form-label text-muted small fw-bold">Message</label>
+                                                <textarea class="form-control border-secondary border-opacity-25" rows="4" placeholder="Tell us about your business..." required></textarea>
+                                            </div>
+                                            <div class="col-12 text-center mt-5">
+                                                <button type="submit" class="btn-primary-custom px-5 py-2 rounded-pill shadow-sm">Submit Request <i data-lucide="briefcase" class="ms-2" style="width: 16px;"></i></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- Section 3: Full Width Map -->
+        <section class="map-section mt-5 fade-up" style="height: 400px;">
+            <!-- Placeholder for map iframe -->
+            <div class="w-100 h-100 bg-secondary" style="background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2000&auto=format&fit=crop') center/cover;">
+                <div class="w-100 h-100 d-flex justify-content-center align-items-center" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(4px);">
+                    <div class="bg-white p-3 rounded shadow d-flex align-items-center gap-2">
+                        <i data-lucide="map-pin" style="color: var(--color-primary);"></i>
+                        <span class="fw-bold">123 Market St, NY</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: FAQ -->
+        <section class="py-5 bg-transparent">
+            <div class="container py-5 fade-up">
+                <div class="text-center mb-5">
+                    <span class="subheading d-block mb-2 text-primary fw-bold" style="color: var(--color-primary);">Got Questions?</span>
+                    <h2 class="display-6 fw-bold">Frequently Asked Questions</h2>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="accordion accordion-flush text-reset" id="faqAccordion" style="--bs-accordion-bg: transparent; --bs-accordion-color: inherit; --bs-accordion-btn-color: inherit; --bs-accordion-active-color: inherit; --bs-accordion-btn-bg: transparent; --bs-accordion-active-bg: transparent;">
+                            <!-- FAQ Item 1 -->
+                            <div class="accordion-item border-bottom border-light mb-3">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed fw-bold bg-transparent shadow-none px-0" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                        What are your delivery hours?
+                                    </button>
+                                </h2>
+                                <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body text-muted px-0">
+                                        Our standard delivery hours are from 8:00 AM to 9:00 PM, seven days a week. You can choose a specific 2-hour delivery window at checkout.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FAQ Item 2 -->
+                            <div class="accordion-item border-bottom border-light mb-3">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed fw-bold bg-transparent shadow-none px-0" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                        Do you deliver to my area?
+                                    </button>
+                                </h2>
+                                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body text-muted px-0">
+                                        We currently deliver to all major zip codes within a 20-mile radius of our store locations. Please enter your zip code on the cart page to verify delivery availability.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FAQ Item 3 -->
+                            <div class="accordion-item border-bottom border-light mb-3">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed fw-bold bg-transparent shadow-none px-0" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                        What is your return policy for fresh produce?
+                                    </button>
+                                </h2>
+                                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body text-muted px-0">
+                                        We offer a 100% freshness guarantee. If you are not satisfied with the quality of your fresh produce, please contact us within 24 hours of delivery for a full refund or replacement.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FAQ Item 4 -->
+                            <div class="accordion-item border-bottom border-light mb-3">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed fw-bold bg-transparent shadow-none px-0" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                        Can I modify or cancel my order after placing it?
+                                    </button>
+                                </h2>
+                                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body text-muted px-0">
+                                        Yes, you can modify or cancel your order up to 4 hours before your scheduled delivery time through your account dashboard or by contacting our customer care team.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-12 pe-lg-5 mb-4 mb-lg-0">
+                    <a href="index.html" class="footer-logo">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2"><path d="M4 7H20L18.5 21H5.5L4 7Z" fill="var(--color-primary)" fill-opacity="0.2" stroke="var(--color-primary)" stroke-width="2" stroke-linejoin="round"/><path d="M8 7L12 3L16 7" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="14" r="3" fill="var(--color-secondary)"/></svg> RubyBasket
+                    </a>
+                    <p class="text-muted mb-4">Your premium neighborhood supermarket providing fresh groceries with smart, fast delivery to your door.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" aria-label="Instagram"><i class="bi bi-instagram fs-5"></i></a>
+                        <a href="#" class="social-icon" aria-label="Facebook"><i class="bi bi-facebook fs-5"></i></a>
+                        <a href="#" class="social-icon" aria-label="X"><i class="bi bi-twitter-x fs-5"></i></a>
+                        <a href="#" class="social-icon" aria-label="YouTube"><i class="bi bi-youtube fs-5"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-6 footer-col">
+                    <h5>Shop</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Fresh Produce</a></li>
+                        <li><a href="#">Dairy & Eggs</a></li>
+                        <li><a href="#">Bakery</a></li>
+                        <li><a href="#">Meat & Seafood</a></li>
+                        <li><a href="#">Weekly Deals</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-3 col-6 footer-col">
+                    <h5>Customer Care</h5>
+                    <ul class="footer-links">
+                        <li><a href="contact.html">Help Center</a></li>
+                        <li><a href="#">Track Order</a></li>
+                        <li><a href="#">Delivery Info</a></li>
+                        <li><a href="#">Returns & Refunds</a></li>
+                        <li><a href="services.html">Services</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-3 col-6 footer-col">
+                    <h5>Company</h5>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="contact.html">Store Locations</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-3 col-6 footer-col">
+                    <h5>Contact Us</h5>
+                    <ul class="footer-links">
+                        <li class="d-flex align-items-center gap-2"><i data-lucide="map-pin" size="16"></i> 123 Market St, NY</li>
+                        <li class="d-flex align-items-center gap-2"><i data-lucide="phone" size="16"></i> +1 234 567 8900</li>
+                        <li class="d-flex align-items-center gap-2"><i data-lucide="mail" size="16"></i> hello@rubybasket.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-top border-opacity-10 pt-4 text-center text-muted small">
+                <p>&copy; 2026 RubyBasket Supermarket. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- GSAP (Optional for future advanced animations) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
+
+
+
+
+
+
