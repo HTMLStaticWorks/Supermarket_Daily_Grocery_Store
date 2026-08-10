@@ -575,6 +575,11 @@ img {
     text-align: center !important;
   }
 
+  /* Override for service features to keep icon and text side by side */
+  .service-feature h6, .service-feature p {
+    text-align: start !important;
+  }
+
   /* One by one alignment for buttons */
   main .d-flex.flex-wrap {
     flex-direction: column !important;
@@ -588,6 +593,20 @@ img {
     justify-content: center;
   }
 
+
+  /* Fix gap in hero section for mobile view */
+  .hero-section {
+    min-height: auto !important;
+    padding-bottom: 2rem !important;
+  }
+  
+  .hero-3d-scene {
+    height: 250px !important;
+  }
+}
+
+/* --- Tablet and Mobile Alignment Fixes --- */
+@media (max-width: 991.98px) {
   /* Keep footer section in center alignment */
   .footer-custom, footer {
     text-align: center !important;
@@ -604,14 +623,25 @@ img {
   .footer-custom .footer-logo, footer .footer-logo {
     justify-content: center !important;
   }
+}
 
-  /* Fix gap in hero section for mobile view */
-  .hero-section {
-    min-height: auto !important;
-    padding-bottom: 2rem !important;
-  }
-  
-  .hero-3d-scene {
-    height: 250px !important;
-  }
+/* Apple Icon Dark Mode Fix */
+[data-theme='dark'] .apple-icon {
+    filter: invert(1);
+}
+
+/* Navbar Toggler Color Fix */
+.navbar-toggler {
+    color: var(--color-text-main) !important;
+}
+
+/* Standard Card Dark Mode Fix */
+[data-theme="dark"] .card {
+  background-color: var(--bg-card) !important;
+  border-color: var(--color-border) !important;
+}
+
+/* Accordion Dropdown Icon Dark Mode Fix */
+[data-theme="dark"] .accordion-button::after {
+    filter: invert(1) brightness(2);
 }
